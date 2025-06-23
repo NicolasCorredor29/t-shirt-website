@@ -10,7 +10,7 @@ export default function Home() {
         {" "}
         <Header />
       </header>
-      <main className="bg-[#F1F2F3] w-full flex justify-center min-h-170 pt-5 pr-40 pb-5 pl-40">
+      <main className="bg-[#F1F2F3] w-full flex justify-center min-h-170 pt-5 pr-40 pb-5 pl-40 text-black">
         <section className=" flex flex-col w-350 h-190 max-w-350">
           <article>
             <p className="text-4xl">Titulo</p>

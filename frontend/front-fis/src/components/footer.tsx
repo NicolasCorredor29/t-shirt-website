@@ -3,7 +3,7 @@ import { Instagram, Facebook, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="flex justify-center w-full h-50 bg-[#FCF7F7]">
+    <footer className="flex justify-center w-full h-50 bg-[#FCF7F7] text-black">
       <section className="flex flex-col w-240 h-50 max-w-240 pt-10 pr-5 pb-10 pl-5 gap-6">
         <article className="flex w-230 h-18 gap-7.5 bg-[#FFFFFF]">
           <Link href="#">

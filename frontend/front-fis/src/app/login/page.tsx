@@ -30,8 +30,8 @@ export default function LoginForm() {
     }
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
+      const response = await fetch("http://localhost:3000/users", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
