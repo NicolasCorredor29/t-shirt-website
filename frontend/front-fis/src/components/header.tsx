@@ -16,31 +16,31 @@ export const Header: React.FC = () => {
     <header className="bg-[#E5E8EB] flex justify-between w-full h-19 border-b-1 pt-3 pr-10 pb-3 pl-10">
       <section className="flex justify-center w-100 h-full gap-4 items-center">
         <Shirt />
-        <p>t-shirt Store</p>
+        <p className="text-2xl">t-shirt Store</p>
       </section>
       <section className="flex justify-end w-full h-full gap-8 ">
         <article className="flex justify-around items-center w-110 h-full">
           <Link
             href="#link"
-            className="flex flex-col justify-center w-15 h-6 rounded-3xl transition-all duration-300 hover:bg-[#F2E8E8]"
+            className="flex flex-col justify-center w-15 h-6 rounded-3xl transition-all duration-300 hover:bg-[#E398C9]"
           >
             <button>Men</button>
           </Link>
           <Link
-            href="#link"
-            className=" flex flex-col justify-center w-20 h-6 rounded-3xl transition-all duration-300 hover:bg-[#F2E8E8]"
+            href="/login"
+            className=" flex flex-col justify-center w-20 h-6 rounded-3xl transition-all duration-300 hover:bg-[#E398C9]"
           >
             <button>Women</button>
           </Link>
           <Link
             href="#link"
-            className=" flex flex-col justify-center w-17 h-6 rounded-3xl transition-all duration-300 hover:bg-[#F2E8E8]"
+            className=" flex flex-col justify-center w-17 h-6 rounded-3xl transition-all duration-300 hover:bg-[#E398C9]"
           >
             <button>Kids</button>
           </Link>
           <Link
             href="#link"
-            className=" flex flex-col justify-center w-17 h-6 rounded-3xl transition-all duration-300 hover:bg-[#F2E8E8]"
+            className=" flex flex-col justify-center w-17 h-6 rounded-3xl transition-all duration-300 hover:bg-[#E398C9]"
           >
             <button>Sale</button>
           </Link>
@@ -64,9 +64,11 @@ export const Header: React.FC = () => {
             )}
           </div>
           <div>
-            <button className="bg-[#F2E8E8] w-10 h-10 rounded-[8px] pr-2.5 pl-2.5 transform transition duration-300 hover:scale-105">
-              <User />
-            </button>
+            <Link href="/login">
+              <button className="bg-[#F2E8E8] w-10 h-10 rounded-[8px] pr-2.5 pl-2.5 transform transition duration-300 hover:scale-105">
+                <User />
+              </button>
+            </Link>
           </div>
           <div>
             <button className="bg-[#F2E8E8] w-10 h-10 rounded-[8px] pr-2.5 pl-2.5 transform transition duration-300 hover:scale-105">
