@@ -48,3 +48,8 @@ export const deleteUser = async (req, res) => {
   }
   return res.sendStatus(204);
 };
+
+export const login = async (req, res) => {
+  const { email, password } = req.body
+  
+}

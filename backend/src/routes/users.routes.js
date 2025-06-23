@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { json, Router } from "express";
 import {
   getUsers,
   getUser,
@@ -24,5 +24,8 @@ router.delete("/users/:id", deleteUser);
 router.get("/designs/:artist_id", getDesigns);
 
 router.post("/designs", createDesigns)
+
+
+router.post('/jp', async (req, res) => { res.json({message: "hola",})})
 
 export default router;
