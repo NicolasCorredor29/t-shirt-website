@@ -1,15 +1,9 @@
 "use client";
-import Footer from "@/components/footer";
-import { Header } from "@/components/header";
 import { Tarjeta } from "@/components/tarjeta";
 
 export default function Home() {
   return (
     <div>
-      <header>
-        {" "}
-        <Header />
-      </header>
       <main className="bg-[#F1F2F3] w-full flex justify-center min-h-screen pt-5 pr-40 pb-5 pl-40 text-black overflow-y-auto">
         <section className=" flex flex-col w-350 h-190 max-w-350">
           <article>
@@ -34,9 +28,6 @@ export default function Home() {
           </article>
         </section>
       </main>
-      <footer className="flex justify-center mt-auto">
-        <Footer />
-      </footer>
     </div>
   );
 }
