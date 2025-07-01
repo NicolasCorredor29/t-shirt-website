@@ -1,38 +1,31 @@
 import { pool } from "../db.js";
 
-export const getUsers = async (req, res) => {
-  const { rows } = await pool.query("SELECT * FROM users");
-
-  res.json(rows);
-};
-
-export const getUser = async (req, res) => {
-  const { id } = req.params;
-
-  const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
-
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  const { rows } = await pool.query(
+    "SELECT username, id FROM users WHERE email = $1 AND password = $2",
+    [email, password]
+  );
   if (rows.length == 0) {
     return res.status(404).json({ message: "User not found" });
   }
-  res.json(rows[0]);
+  //devuelve username y id
+  return res.json(rows[0], rows[1]);
 };
 
 export const createUser = async (req, res) => {
   try {
     const data = req.body;
-
-  const { rows } = await pool.query(
-    "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *",
-    [data.name, data.email]
-  );
-  return res.json(rows[0]);
-
+    await pool.query(
+      "INSERT INTO users (username, password, rol_id, email) VALUES ($1, $2, $3, $4)",
+      [data.username, data.password, data.rol_id, data.email]
+    );
+    return res.status(200).json({ message: "User created succesfully" });
   } catch (error) {
-
-    if (error?.code === "23505"){
-        return res.status(409).json({message: "Email already exists"})
+    if (error?.code === "23505") {
+      return res.status(409).json({ message: "Email already exists" });
     }
-    return res.status(500).json({message: "Internal error"})
+    return res.status(500).json({ message: "Internal error" });
   }
 };
 

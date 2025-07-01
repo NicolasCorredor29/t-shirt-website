@@ -30,8 +30,8 @@ export default function LoginForm() {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/users", {
-        method: "GET",
+      const response = await fetch("http://localhost:4000/jp", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -40,6 +40,7 @@ export default function LoginForm() {
           password,
         }),
       });
+      console.log("response status", response.status)
 
       const data = await response.json();
 
@@ -50,6 +51,7 @@ export default function LoginForm() {
       alert("¡Login exitoso!");
     } catch (err) {
       setError("Error al iniciar sesión. Verifica tus credenciales.");
+      console.log(err)
     } finally {
       setLoading(false);
     }
