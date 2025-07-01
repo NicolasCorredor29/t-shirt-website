@@ -1,31 +1,22 @@
 import { json, Router } from "express";
 import {
-  getUsers,
-  getUser,
+  login,
   createUser,
-  deleteUser,
+  deleteUser
 } from "../controllers/users.controllers.js";
-import {
-    createDesigns,
-    getDesigns
-} from "../controllers/designs.controllers.js"
 
 const router = Router();
 
-router.get("/users", getUsers);
-
-//:id parametro (variable)
-router.get("/users/:id", getUser);
+router.post("/login", login);
 
 router.post("/users", createUser);
 
 router.delete("/users/:id", deleteUser);
 
-router.get("/designs/:artist_id", getDesigns);
-
-router.post("/designs", createDesigns)
-
-
-router.post('/jp', async (req, res) => { res.json({message: "hola",})})
+router.post("/jp", async (req, res) => {
+  const data = req.body;
+  res.json({ message: "hola" });
+  console.log(typeof data);
+});
 
 export default router;
