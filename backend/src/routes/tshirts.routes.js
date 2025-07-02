@@ -9,7 +9,7 @@ const router = Router();
 
 router.post("/createTshirt", createTshirt);
 
-router.update("/updateTshirt", updateTshirt);
+router.put("/updateTshirt", updateTshirt);
 
 router.delete("/deleteTshirt", deleteTshirt);
 
