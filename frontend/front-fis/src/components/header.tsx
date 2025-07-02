@@ -1,5 +1,6 @@
 "use client";
-import { Search, Shirt, User, ShoppingBag } from "lucide-react";
+import { Search, Shirt, User } from "lucide-react";
+import { CartIcon } from "./cartIcon";
 import React from "react";
 import Link from "next/link";
 import { useState } from "react";
@@ -71,10 +72,7 @@ export const Header: React.FC = () => {
             </Link>
           </div>
           <div>
-            <button className="bg-[#F2E8E8] w-10 h-10 rounded-[8px] pr-2.5 pl-2.5 transform transition duration-300 hover:scale-105">
-              {" "}
-              <ShoppingBag />
-            </button>
+            <CartIcon count={1} />
           </div>
         </article>
       </section>
