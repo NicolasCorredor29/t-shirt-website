@@ -16,7 +16,9 @@ export const Header: React.FC = () => {
   return (
     <header className="bg-[#E5E8EB] flex justify-between w-full h-19 border-b-1 pt-3 pr-10 pb-3 pl-10 text-black">
       <section className="flex justify-center w-100 h-full gap-4 items-center">
-        <Shirt />
+        <Link href="/">
+          <Shirt />
+        </Link>
         <p className="text-2xl">t-shirt Store</p>
       </section>
       <section className="flex justify-end w-full h-full gap-8 ">
