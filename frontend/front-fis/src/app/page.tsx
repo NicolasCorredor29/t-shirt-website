@@ -1,5 +1,7 @@
 "use client";
+import { useState } from "react";
 import { Tarjeta } from "@/components/tarjeta";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -22,6 +24,9 @@ export default function Home() {
             <div className="bg-[#F2E8E8] flex justify-center w-24 h-8 rounded-[8px] pr-4 pl-4 gap-2">
               <button>Kids</button>
             </div>
+            <Link href="/formulario">
+              <button>Agregar Producto</button>
+            </Link>
           </article>
           <article className="w-full min-h-165 p-4 gap-3">
             <Tarjeta />
