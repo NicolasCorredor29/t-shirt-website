@@ -40,28 +40,28 @@ export default function FormularioPage() {
       >
         <h2 className="text-xl font-bold mb-2 text-black">Agregar Producto</h2>
 
-        <Label>Title</Label> 
+        <Label>Title</Label>
         <Input
           name="id"
           value={formData.id}
           onChange={handleChange}
           placeholder="Dragon rojo"
         />
-        <Label>Description</Label> 
+        <Label>Description</Label>
         <Input
           name="description"
           value={formData.name}
           onChange={handleChange}
           placeholder="Un dragon rojo en una montaña"
         />
-        <Label>Category</Label> 
+        <Label>Category</Label>
         <Input
           name="category"
           value={formData.artist}
           onChange={handleChange}
           placeholder="All"
         />
-        <Label>Image</Label> 
+        <Label>Image</Label>
         <Input
           name="image"
           value={formData.image}

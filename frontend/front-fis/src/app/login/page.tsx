@@ -31,7 +31,7 @@ export default function LoginForm() {
     }
 
     try {
-      const response = await fetch("http://localhost:4000/jp", {
+      const response = await fetch("http://localhost:4000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,10 +41,10 @@ export default function LoginForm() {
           password,
         }),
       });
-      console.log("response status", response.status)
+      console.log("response status", response.status);
 
       const data = await response.json();
-
+      console.log(data);
       if (!response.ok) {
         // Manejo de errores del servidor
         throw new Error(data.message || "Error al iniciar sesión");
@@ -52,7 +52,7 @@ export default function LoginForm() {
       alert("¡Login exitoso!");
     } catch (err) {
       setError("Error al iniciar sesión. Verifica tus credenciales.");
-      console.log(err)
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -169,10 +169,7 @@ export default function LoginForm() {
                 type="button"
                 className="text-blue-600 hover:underline font-medium focus:outline-none"
               >
-                <Link href="/register">
-                  Regístrate aquí
-                </Link>
-                
+                <Link href="/register">Regístrate aquí</Link>
               </button>
             </span>
           </div>

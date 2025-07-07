@@ -14,7 +14,7 @@ const products = [
     artist: "Mateo Torres",
     image: "",
   },
-    {
+  {
     id: "cara-bola",
     name: "Camisa 3",
     artist: "Mateo Torres",
@@ -44,7 +44,6 @@ const products = [
     artist: "Mateo Torres",
     image: "",
   },
-  
 ];
 
 export const Tarjeta = () => {

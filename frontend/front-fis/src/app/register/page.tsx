@@ -14,12 +14,14 @@ export default function RegisterPage() {
     username: "",
     email: "",
     password: "",
-    role: "user", // default: client
+    role: "user",
   });
 
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -28,13 +30,14 @@ export default function RegisterPage() {
     e.preventDefault();
     setLoading(true);
 
-    const res = await fetch("", {
+    const res = await fetch("http://localhost:4000/createUser", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
 
     const data = await res.json();
+    console.log(data);
 
     if (res.ok) {
       toast.success("Registration successful. You can now log in.");
@@ -51,7 +54,9 @@ export default function RegisterPage() {
       <h1 className="text-2xl font-bold mb-4 text-center">Create Account</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Label htmlFor="username" className="mb-3">Username</Label>
+          <Label htmlFor="username" className="mb-3">
+            Username
+          </Label>
           <Input
             id="username"
             name="username"
@@ -61,7 +66,9 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <Label htmlFor="email" className="mb-3">Email</Label>
+          <Label htmlFor="email" className="mb-3">
+            Email
+          </Label>
           <Input
             id="email"
             name="email"
@@ -72,7 +79,9 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <Label htmlFor="password" className="mb-3">Password</Label>
+          <Label htmlFor="password" className="mb-3">
+            Password
+          </Label>
           <Input
             id="password"
             name="password"
@@ -83,7 +92,9 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <Label htmlFor="role" className="mb-3">Account Type</Label>
+          <Label htmlFor="role" className="mb-3">
+            Account Type
+          </Label>
           <select
             id="role"
             name="role"
@@ -96,7 +107,6 @@ export default function RegisterPage() {
           </select>
         </div>
         <Button type="submit" className="w-full bg-blue-600" disabled={loading}>
-          
           {loading ? "Registering..." : "Register"}
         </Button>
       </form>
