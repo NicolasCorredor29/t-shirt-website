@@ -10,17 +10,17 @@ export const login = async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
   //devuelve username y id
-  return res.json(rows[0], rows[1]);
+  return res.json(rows);
 };
 
 export const createUser = async (req, res) => {
   try {
     const data = req.body;
-    await pool.query(
-      "INSERT INTO users (username, password, rol, email) VALUES ($1, $2, $3, $4) RETURNING *",
-      [data.username, data.password, data.rol, data.email]
+    const { rows } =await pool.query(
+      "INSERT INTO users (username, password, email, rol) VALUES ($1, $2, $3, $4) RETURNING *",
+      [data.username, data.password, data.email, data.role]
     );
-    return res.status(200).json({ message: "User created succesfully" });
+    return res.status(200).json(rows[0].id);
   } catch (error) {
     if (error?.code === "23505") {
       return res.status(409).json({ message: "Email already exists" });
