@@ -17,8 +17,8 @@ export const createUser = async (req, res) => {
   try {
     const data = req.body;
     await pool.query(
-      "INSERT INTO users (username, password, rol_id, email) VALUES ($1, $2, $3, $4) RETURNING *",
-      [data.username, data.password, data.rol_id, data.email]
+      "INSERT INTO users (username, password, rol, email) VALUES ($1, $2, $3, $4) RETURNING *",
+      [data.username, data.password, data.rol, data.email]
     );
     return res.status(200).json({ message: "User created succesfully" });
   } catch (error) {
