@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useCartStore } from "@/store/cartStore";
 
 interface ProductPageProps {
   params: { id: string };
@@ -18,18 +19,21 @@ const mockProduct = {
 };
 
 export default function ProductPage({ params }: ProductPageProps) {
+  const addToCart = useCartStore((state) => state.addToCart);
   const [selectedSize, setSelectedSize] = useState("M");
   const [selectedColor, setSelectedColor] = useState("black");
 
-  const addToCart = () => {
-    // Lógica para agregar al carrito (puede ser contexto, localStorage, etc)
-    console.log("Agregado al carrito:", {
-      ...mockProduct,
+  const handleAddToCart = () => {
+    const item = {
+      id: mockProduct.id, // id del producto real
+      name: mockProduct.name,
       size: selectedSize,
       color: selectedColor,
       quantity: 1,
-    });
-    alert("Producto agregado al carrito 🛒");
+      price: mockProduct.price,
+      image: mockProduct.image,
+    };
+    addToCart(item);
   };
 
   return (
@@ -48,6 +52,9 @@ export default function ProductPage({ params }: ProductPageProps) {
             <h1 className="text-3xl font-bold mb-2">{mockProduct.name}</h1>
             <p className="text-sm text-gray-600 mb-4">{mockProduct.artist}</p>
             <p className="text-gray-700 mb-4">{mockProduct.description}</p>
+            <div className="text-xl font-semibold text-blue-600">
+              {mockProduct.price} COP
+            </div>
 
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">Talla</label>
@@ -84,10 +91,40 @@ export default function ProductPage({ params }: ProductPageProps) {
                 ))}
               </div>
             </div>
+                      <div>
+            <p className="text-sm font-medium text-gray-700 mb-1">Tipo</p>
+            <div className="flex gap-4">
+              <button className="flex flex-col items-center gap-1 text-sm hover:text-blue-600">
+                <img
+                  src="/img/mangacorta.png"
+                  className="w-8 h-8"
+                  alt="Sleveless"
+                />
+                Sleveless
+              </button>
+              <button className="flex flex-col items-center gap-1 text-sm hover:text-blue-600">
+                <img
+                  src="/img/mangalarga.png"
+                  className="w-8 h-8"
+                  alt="Long sleeves"
+                />
+                Long sleeves
+              </button>
+              <button className="flex flex-col items-center gap-1 text-sm hover:text-blue-600">
+                <img
+                  src="/img/normal.png"
+                  className="w-8 h-8"
+                  alt="T-shirt"
+                />
+                T-shirt
+              </button>
+            </div>
+          </div>
           </div>
 
+
           <button
-            onClick={addToCart}
+            onClick={handleAddToCart}
             className="mt-6 w-full bg-black text-white py-3 font-semibold rounded hover:bg-gray-800"
           >
             ADD TO CART

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import CartItem from "@/components/cartItem";
+import { useCartStore } from "@/store/cartStore";
+import { Button } from "@/components/ui/button";
 
 const mockCart = [
   {
@@ -34,25 +36,15 @@ const mockCart = [
 ];
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState(mockCart);
-
-  const removeItem = (id: number) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
-
-  const handleQuantityChange = (id: number, newQuantity: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
+  const cartItems = useCartStore((state) => state.cartItems);
+  const removeItem = useCartStore((state) => state.removeFromCart);
+  const handleQuantityChange = useCartStore((state) => state.updateQuantity);
+  
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-
+  
   return (
     <div>
       <main className="bg-[#F1F2F3] w-full flex justify-center min-h-screen pt-5 pr-40 pb-5 pl-40 text-black overflow-y-auto">
@@ -79,7 +71,7 @@ export default function CartPage() {
                 </p>
               </div>
 
-              <button
+              <Button
                 disabled={cartItems.length === 0}
                 className={`w-full mt-6 py-3 text-white font-semibold rounded ${
                   cartItems.length === 0
@@ -88,7 +80,7 @@ export default function CartPage() {
                 }`}
               >
                 Continue to checkout
-              </button>
+              </Button>
             </div>
           </div>
         </section>

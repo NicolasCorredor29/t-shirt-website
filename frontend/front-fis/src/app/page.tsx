@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Tarjeta } from "@/components/tarjeta";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -11,23 +12,28 @@ export default function Home() {
           <article>
             <p className="text-4xl">Titulo</p>
           </article>
-          <article className="flex w-full h-14 pt-3 pr-4 pb-3 pl-3 gap-3">
-            <div className="bg-[#F2E8E8] flex justify-center w-15 h-8 rounded-[8px] pr-4 pl-4 gap-2">
-              <button>All</button>
+          <div className="flex justify-between items-center px-4 py-2">
+            <div className="flex space-x-4">
+              <button className="bg-[#F2E8E8] px-8 py-2 rounded">
+                All
+              </button>
+              <button className="bg-[#F2E8E8] px-8 py-2 rounded">
+                Men
+              </button>
+              <button className="bg-[#F2E8E8] px-8 py-2 rounded">
+                Women
+              </button>
+              <button className="bg-[#F2E8E8] px-8 py-2 rounded">
+                Kids
+              </button>
             </div>
-            <div className="bg-[#F2E8E8] flex justify-center w-15 h-8 rounded-[8px] pr-4 pl-4 gap-2">
-              <button>Men</button>
-            </div>
-            <div className="bg-[#F2E8E8] flex justify-center w-24 h-8 rounded-[8px] pr-4 pl-4 gap-2">
-              <button>Women</button>
-            </div>
-            <div className="bg-[#F2E8E8] flex justify-center w-24 h-8 rounded-[8px] pr-4 pl-4 gap-2">
-              <button>Kids</button>
-            </div>
+
             <Link href="/formulario">
-              <button>Agregar Producto</button>
+              <Button >Add Desing</Button>
             </Link>
-          </article>
+          </div>
+
+          <article className="flex w-full h-14 pt-3 pr-4 pb-3 pl-3 gap-3"></article>
           <article className="w-full min-h-165 p-4 gap-3">
             <Tarjeta />
           </article>

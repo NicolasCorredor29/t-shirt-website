@@ -3,6 +3,7 @@
 import type React from "react";
 import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react";
+import Link from "next/link";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -168,7 +169,10 @@ export default function LoginForm() {
                 type="button"
                 className="text-blue-600 hover:underline font-medium focus:outline-none"
               >
-                Regístrate aquí
+                <Link href="/register">
+                  Regístrate aquí
+                </Link>
+                
               </button>
             </span>
           </div>
