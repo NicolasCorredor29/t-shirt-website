@@ -26,3 +26,13 @@ export const createReview = async (req, res) => {
     }
     res.json({message: "Review created succesfully"})
 }
+
+export const deleteReview = async (req, res) => {
+    const { design_id } = req.params
+    try {
+        await pool.query("DELETE FROM product_reviews WHERE design_id = $1", [design_id])
+    } catch (err) {
+        return res.status(500).json({message: "Internal error, review not deleted"})
+    }
+    res.json({message: "Review deleted succesfully"})
+}

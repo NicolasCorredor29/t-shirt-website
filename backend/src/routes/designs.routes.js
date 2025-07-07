@@ -18,9 +18,9 @@ router.get("/designs/:artist_id", getArtDesigns);
 
 router.get("/designs/fav/:user_id", getFavDesigns)
 
-router.get("/searchDesign", getDesign)
+router.get("/searchDesign/:title", getDesign)
 
-router.get("/oneDesign", getOneDesign)
+router.get("/oneDesign/:id", getOneDesign)
 
 router.post("/designs", createDesign)
 

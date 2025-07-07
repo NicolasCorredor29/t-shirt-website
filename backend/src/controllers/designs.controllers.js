@@ -18,7 +18,7 @@ export const getArtDesigns = async (req, res) => {
 };
 
 export const getDesign = async (req, res) => {
-  const { title } = req.body
+  const { title } = req.params
   const { rows } = await pool.query("SELECT * FROM designs WHERE title = $1", [title])
   if (rows.length == 0){
     return res.status(404).json({message: "Designs not found"})

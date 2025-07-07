@@ -9,7 +9,7 @@ const router = Router();
 
 router.post("/login", login);
 
-router.post("/users", createUser);
+router.post("/createUser", createUser);
 
 router.delete("/users/:id", deleteUser);
 
