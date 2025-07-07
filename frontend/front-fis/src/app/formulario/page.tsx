@@ -19,14 +19,27 @@ export default function FormularioPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  //Aca cambie esto para mandar la camiseta a la base de datos
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Aquí puedes guardar en una API o localStorage (opcional)
-    console.log("Producto guardado:", formData);
+    try {
+      const res = await fetch("http://localhost:4000/jp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    // Redirige de vuelta a la página principal
-    router.push("/");
+      if (!res.ok) throw new Error("Error al guardar el producto");
+
+      // Opcional: puedes mostrar un mensaje o limpiar el formulario
+      console.log("Producto guardado correctamente");
+
+      // Redirige a la página principal
+      router.push("/");
+    } catch (err) {
+      console.error("Error al enviar el formulario:", err);
+    }
   };
 
   return (
