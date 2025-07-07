@@ -22,27 +22,14 @@ export default function FormularioPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  //Aca cambie esto para mandar la camiseta a la base de datos
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:4000/jp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+    // Aquí puedes guardar en una API o localStorage (opcional)
+    console.log("Producto guardado:", formData);
 
-      if (!res.ok) throw new Error("Error al guardar el producto");
-
-      // Opcional: puedes mostrar un mensaje o limpiar el formulario
-      console.log("Producto guardado correctamente");
-
-      // Redirige a la página principal
-      router.push("/");
-    } catch (err) {
-      console.error("Error al enviar el formulario:", err);
-    }
+    // Redirige de vuelta a la página principal
+    router.push("/");
   };
 
   return (
@@ -53,28 +40,28 @@ export default function FormularioPage() {
       >
         <h2 className="text-xl font-bold mb-2 text-black">Agregar Producto</h2>
 
-        <Label>Title</Label> 
+        <Label>Title</Label>
         <Input
           name="id"
           value={formData.id}
           onChange={handleChange}
           placeholder="Dragon rojo"
         />
-        <Label>Description</Label> 
+        <Label>Description</Label>
         <Input
           name="description"
           value={formData.name}
           onChange={handleChange}
           placeholder="Un dragon rojo en una montaña"
         />
-        <Label>Category</Label> 
+        <Label>Category</Label>
         <Input
           name="category"
           value={formData.artist}
           onChange={handleChange}
           placeholder="All"
         />
-        <Label>Image</Label> 
+        <Label>Image</Label>
         <Input
           name="image"
           value={formData.image}
