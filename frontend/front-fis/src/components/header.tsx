@@ -1,11 +1,14 @@
 "use client";
 import { Search, Shirt, User } from "lucide-react";
-import { CartIcon } from "./cartIcon";
 import React from "react";
 import Link from "next/link";
 import { useState } from "react";
+import { useCartStore } from '@/store/cartStore';
+import { ShoppingCart } from "lucide-react";
 
 export const Header: React.FC = () => {
+  const cartItems = useCartStore((state) => state.cartItems);
+  const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const [mostrarBarra, setMostrarBarra] = useState(false);
   const [busqueda, setBusqueda] = useState("");
 
@@ -19,7 +22,7 @@ export const Header: React.FC = () => {
         <Link href="/">
           <Shirt />
         </Link>
-        <p className="text-2xl">t-shirt Store</p>
+        <p className="text-2xl">T-shirt Store</p>
       </section>
       <section className="flex justify-end w-full h-full gap-8 ">
         <article className="flex justify-around items-center w-110 h-full">
@@ -74,7 +77,14 @@ export const Header: React.FC = () => {
             </Link>
           </div>
           <div>
-            <CartIcon count={1} />
+            <Link href="/cart" className="relative">
+              <ShoppingCart className="w-6 h-6 text-black" />
+              {itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {itemCount}
+                </span>
+              )}
+            </Link>
           </div>
         </article>
       </section>

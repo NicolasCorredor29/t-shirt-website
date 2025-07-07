@@ -54,7 +54,6 @@ export const Tarjeta = () => {
         <Link key={product.id} href={`/${product.id}`}>
           <div className="flex flex-col bg-[#C6D3DB] w-44 h-76 pb-3 gap-3 rounded-2xl overflow-hidden transform transition duration-300 hover:scale-105 cursor-pointer">
             <Image
-            
               className="bg-white w-44 h-58.5"
               src={product.image}
               alt={product.name}

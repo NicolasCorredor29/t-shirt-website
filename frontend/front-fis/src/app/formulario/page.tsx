@@ -1,6 +1,9 @@
 // app/formulario/page.tsx
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -37,38 +40,36 @@ export default function FormularioPage() {
       >
         <h2 className="text-xl font-bold mb-2 text-black">Agregar Producto</h2>
 
-        <input
-          className="border p-2 text-black"
+        <Label>Title</Label> 
+        <Input
           name="id"
           value={formData.id}
           onChange={handleChange}
-          placeholder="ID"
+          placeholder="Dragon rojo"
         />
-        <input
-          className="border p-2 text-black"
-          name="name"
+        <Label>Description</Label> 
+        <Input
+          name="description"
           value={formData.name}
           onChange={handleChange}
-          placeholder="Nombre"
+          placeholder="Un dragon rojo en una montaña"
         />
-        <input
-          className="border p-2 text-black"
-          name="artist"
+        <Label>Category</Label> 
+        <Input
+          name="category"
           value={formData.artist}
           onChange={handleChange}
-          placeholder="Artista"
+          placeholder="All"
         />
-        <input
-          className="border p-2 text-black"
+        <Label>Image</Label> 
+        <Input
           name="image"
           value={formData.image}
           onChange={handleChange}
           placeholder="URL de imagen"
         />
 
-        <button type="submit" className="bg-blue-600 text-white p-2 rounded">
-          Guardar y volver
-        </button>
+        <Button type="submit">Save and return</Button>
       </form>
     </main>
   );
