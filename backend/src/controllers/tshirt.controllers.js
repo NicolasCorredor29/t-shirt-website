@@ -4,7 +4,7 @@ export const createTshirt = async (req, res) => {
   const data = req.body;
   try {
     const { rows } = await pool.query(
-      "INSERT INTO t_shirts (design_id, size, color, material, type, price) VALUES ($1, $2, $3, $4, $5, $6) RETURNIG *",
+      "INSERT INTO t_shirts (design_id, size, color, material, type, price) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
       [
         data.design_id,
         data.size,
