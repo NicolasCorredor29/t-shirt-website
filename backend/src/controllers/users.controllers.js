@@ -10,7 +10,7 @@ export const login = async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
   //devuelve username y id
-  return res.json(rows[0], rows[1]);
+  return res.json(rows[0], rows[1], rows[2]);
 };
 
 export const createUser = async (req, res) => {
