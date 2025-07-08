@@ -12,22 +12,25 @@ export default function CartPage() {
   const rawUpdateQuantity = useCartStore((state) => state.updateQuantity);
   const loadCart = useCartStore((state) => state.loadCart);
   const userId = useUserStore((state) => state.userId);
+  const setUserId = useUserStore((state) => state.setUserId);
 
-  useEffect(() => {
-    console.log("iduser"+userId);
-    if (userId) {
-      loadCart(userId);
-    } else {
-      console.warn("No se encontró el userId en localStorage");
-    }
-  }, []);
+
+ useEffect(() => {
+  const storedId = localStorage.getItem("userId");
+  if (storedId) {
+    const parsedId = parseInt(storedId, 10);
+    setUserId(parsedId); // Esto actualiza el estado global también
+    loadCart(parsedId);
+  }
+}, []);
 
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
   const handleRemoveItem = (tshirtId: number) => {
-    const userId = localStorage.getItem("userId");
+    const id = localStorage.getItem("userId");
+    const userId = id ? parseInt(id, 10) : null;
     if (!userId) {
       console.error("No se encontró userId");
       return;
@@ -36,7 +39,9 @@ export default function CartPage() {
   };
 
   const handleQuantityChange = (tshirtId: number, newQuantity: number) => {
-    const userId = localStorage.getItem("userId");
+    const id = localStorage.getItem("userId");
+    const userId = id ? parseInt(id, 10) : null;
+
     if (!userId) {
       console.error("No se encontró userId");
       return;

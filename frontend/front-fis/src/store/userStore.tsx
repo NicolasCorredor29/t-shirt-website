@@ -1,11 +1,21 @@
 import { create } from "zustand";
 
 interface UserState {
-  userId: string | null;
-  setUserId: (id: string) => void;
+  userId: number | null;
+  setUserId: (id: number) => void;
+  loadUserId: () => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
   userId: null,
-  setUserId: (id) => set({ userId: id }),
+  setUserId: (id) => {
+    localStorage.setItem("userId", id.toString());
+    set({ userId: id });
+  },
+  loadUserId: () => {
+    const storedId = localStorage.getItem("userId");
+    if (storedId) {
+      set({ userId: parseInt(storedId) });
+    }
+  },
 }));

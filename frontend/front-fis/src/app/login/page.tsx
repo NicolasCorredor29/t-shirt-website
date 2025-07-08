@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react";
 import Link from "next/link";
@@ -18,6 +18,10 @@ export default function LoginForm() {
   const router = useRouter();
   const userId = useUserStore((state) => state.userId);
   const setUserId = useUserStore((state) => state.setUserId);
+  /*
+    useEffect(() => {
+      loadUserId();
+    }, []);*/
 
 
   const handleSubmit = async (e: React.FormEvent) => {
