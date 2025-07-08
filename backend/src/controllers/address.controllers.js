@@ -17,7 +17,7 @@ export const getAddress = async (req, res) => {
   const { user_id } = req.params;
   try {
     const { rows } = await pool.query("SELECT * FROM shipping_adresses WHERE user_id = $1", [user_id]);
-    if (rows.length === 0) {
+    if (rows.length == 0) {
       return res.status(404).json({ message: "Address not found" });
     }
     res.json(rows);
@@ -37,4 +37,14 @@ export const updateAddress = async (req, res) => {
     return res.status(404).json({ message: "Address not found" });
   }
   res.json({ message: "Address updated successfully" });
+}
+
+export const deleteAddress = async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    await pool.query("DELETE FROM shipping_adresses WHERE user_id = $1", [user_id]);
+  } catch (err) {
+    return res.status(404).json({ message: "Error deleting the address" });
+  }
+  res.json({ message: "Address deleted successfully" });
 }

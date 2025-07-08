@@ -18,7 +18,7 @@ export const getShoppingCart = async (req, res) => {
       "SELECT ts.*, sc.id AS cart_id, ci.id AS item_id, ci.quantity AS quantity FROM t_shirts ts JOIN cart_items ci ON ts.id = ci.t_shirt_id JOIN shopping_carts sc ON ci.cart_id = sc.id WHERE sc.user_id = $1",
       [user_id]
     );
-    if (rows.length === 0) {
+    if (rows.length == 0) {
       return res.status(404).json({ message: "Cart items not found" });
     }
     res.json(rows);
@@ -31,7 +31,7 @@ export const addtoCart = async (req, res) => {
   const data = req.body;
   try {
     await pool.query(
-      "INSERT INTO cart_items (cart_id, t_shirt_id, quantity) SELECT sc.id, $2, $3 FROM shoping_carts sc WHERE sc.user_id = $1",
+      "INSERT INTO cart_items (cart_id, t_shirt_id, quantity) SELECT sc.id, $2, $3 FROM shopping_carts sc WHERE sc.user_id = $1",
       [data.user_id, data.tshirt_id, data.quantity]
     );
     res.json({ message: "Item quantity updated successfully" });
