@@ -3,14 +3,14 @@ import { pool } from "../db.js";
 export const login = async (req, res) => {
   const { email, password } = req.body;
   const { rows } = await pool.query(
-    "SELECT username, id FROM users WHERE email = $1 AND password = $2",
+    "SELECT u.username, u.id, u.rol FROM users u WHERE email = $1 AND password = $2",
     [email, password]
   );
   if (rows.length == 0) {
     return res.status(404).json({ message: "User not found" });
   }
   //devuelve username y id
-  return res.json(rows[0], rows[1]);
+  return res.json(rows[0], rows[1], rows[2]);
 };
 
 export const createUser = async (req, res) => {

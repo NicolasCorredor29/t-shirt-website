@@ -15,7 +15,7 @@ export const getShoppingCart = async (req, res) => {
   const { user_id } = req.params;
   try {
     const { rows } = await pool.query(
-      "SELECT ts.* FROM t_shirts ts JOIN cart_items ci ON ts.id = ci.t_shirt_id JOIN shopping_cart sc ON ci.cart_id = sc.id WHERE sc.user_id = $1",
+      "SELECT ts.*, sc.id AS cart_id, ci.id AS item_id, ci.quantity AS quantity FROM t_shirts ts JOIN cart_items ci ON ts.id = ci.t_shirt_id JOIN shopping_carts sc ON ci.cart_id = sc.id WHERE sc.user_id = $1",
       [user_id]
     );
     if (rows.length === 0) {
