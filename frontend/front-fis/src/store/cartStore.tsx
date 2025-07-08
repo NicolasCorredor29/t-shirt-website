@@ -78,22 +78,22 @@ export const useCartStore = create<CartStore>((set, get) => ({
     }
   },
 
-  addToCart: async (userId, item) => {
+  addToCart: async (userId, tshirtId) => {
     try {
       await fetch(`http://localhost:4000/addtoCart`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           user_id: userId,
-          tshirt_id: item.id,
-          quantity: item.quantity,
+          tshirt_id: tshirtId,
+          quantity: 1,
         }),
       });
       console.log("Se agregó con exito")
 
       await get().loadCart(userId);
     } catch (err) {
-      console.log(userId, item.id, item.quantity);
+      console.log(userId, tshirtId);
       console.error("Error adding to cart:", err);
     }
   },

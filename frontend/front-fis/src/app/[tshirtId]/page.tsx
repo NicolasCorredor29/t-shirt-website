@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { useUserStore } from "@/store/userStore";
 import { useSearchParams } from "next/navigation";
@@ -26,28 +25,20 @@ const sizeMultipliers: Record<string, number> = {
 export default function ProductPage({ params }: ProductPageProps) {
   const searchParams = useSearchParams();
   const addToCart = useCartStore((state) => state.addToCart);
-  const userId = useUserStore((state) => state.userId);
   const id_design = searchParams.get("id");
 
   const [selectedSize, setSelectedSize] = useState("M");
   const [selectedColor, setSelectedColor] = useState("black");
-  const [selectedSleeve, setSelectedSleeve] = useState("")
   const userId = useUserStore((state) => state.userId);
+  const [selectedSleeve, setSelectedSleeve] = useState("tshirt");
+  const [selectedMaterial, setSelectedMaterial] = useState("algodon");
 
   const loadUserId = useUserStore((state) => state.loadUserId);
   
       useEffect(() => {
         loadUserId();
       }, []);
-  
 
-    const handleSelect = (value: string) => {
-    setSelectedSleeve(value);
-    console.log("Seleccionado:", value);
-  };
-
-  const [selectedSleeve, setSelectedSleeve] = useState("tshirt");
-  const [selectedMaterial, setSelectedMaterial] = useState("algodon");
 
   const [product, setProduct] = useState({
     id: 0,
@@ -56,7 +47,7 @@ export default function ProductPage({ params }: ProductPageProps) {
     artist: "",
     sizes: ["S", "M", "L", "XL"],
     colors: ["black", "white", "blue"],
-    image: "/img/camiseta.png",
+    image: "",
     price: 0,
   });
 
@@ -121,6 +112,8 @@ export default function ProductPage({ params }: ProductPageProps) {
 
     console.log("Producto a agregar:", item);
     console.log(userId)
+    let data = null; 
+
     try {
       const res = await fetch("http://localhost:4000/createTshirt", {
         method: "POST",
@@ -128,17 +121,21 @@ export default function ProductPage({ params }: ProductPageProps) {
         body: JSON.stringify(pedido),
       });
 
+      data = await res.json();
+
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message || "Error al enviar el pedido");
       }
 
-      console.log("Pedido enviado correctamente");
+      console.log("Pedido enviado correctamente"+ data);
     } catch (error) {
       console.error("Error al enviar el pedido:", error);
     }
+
     if (userId) {
-      addToCart(userId, item);
+      console.log(data);
+      addToCart(userId, data);
     } else {
       console.warn("No se encontró el userId en localStorage");
     }
