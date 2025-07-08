@@ -5,8 +5,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react";
 import Link from "next/link";
+import { useUserStore } from "@/store/userStore"; // importa tu store
 
 export default function LoginForm() {
+  
+
+  const setUserId = useUserStore((state) => state.setUserId);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -51,6 +55,10 @@ export default function LoginForm() {
         // Manejo de errores del servidor
         throw new Error(data.message || "Error al iniciar sesión");
       }
+
+      setUserId(data.id);
+
+      console.log(data.id)
 
       router.push(`/?id=${data.id}&username=${data.username}`);
     } catch (err) {

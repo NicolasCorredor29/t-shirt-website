@@ -6,9 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { useUserStore } from "@/store/userStore";
+
 
 export default function RegisterPage() {
+  const userId = useUserStore((state) => state.userId);
   const router = useRouter();
+  const setUserId = useUserStore((state) => state.setUserId);
 
   const [form, setForm] = useState({
     username: "",
@@ -41,6 +45,15 @@ export default function RegisterPage() {
 
     if (res.ok) {
       toast.success("Registration successful. You can now log in.");
+
+      console.log("Mkid"+userId)
+
+      setUserId(data.id);
+
+      await fetch(`http://localhost:4000/createShoppingCart/${userId}`, {
+        method: "GET",
+      });
+
       router.push("/login");
     } else {
       toast.error(data.error || "An error occurred.");

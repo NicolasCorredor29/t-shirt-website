@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useCartStore } from "@/store/cartStore";
+import { useUserStore } from "@/store/userStore";
+
 
 interface ProductPageProps {
   params: { id: string };
@@ -19,9 +21,17 @@ const mockProduct = {
 };
 
 export default function ProductPage({ params }: ProductPageProps) {
-  const addToCart = useCartStore((state) => state.addToCart);
+ const addToCart = useCartStore((state) => state.addToCart);
   const [selectedSize, setSelectedSize] = useState("M");
   const [selectedColor, setSelectedColor] = useState("black");
+  const [selectedSleeve, setSelectedSleeve] = useState("")
+  const userId = useUserStore((state) => state.userId);
+
+    const handleSelect = (value: string) => {
+    setSelectedSleeve(value);
+    console.log("Seleccionado:", value); // Puedes quitar esto luego
+  };
+
 
   const handleAddToCart = () => {
     const item = {
@@ -32,8 +42,15 @@ export default function ProductPage({ params }: ProductPageProps) {
       quantity: 1,
       price: mockProduct.price,
       image: mockProduct.image,
+      
     };
-    addToCart(item);
+    console.log("Producto a agregar:", item);
+    if (userId) {
+      addToCart(userId, item);
+    } else {
+      console.warn("No se encontró el userId en localStorage");
+    }
+    
   };
 
   return (

@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 type CartItem = {
   id: number;
@@ -12,45 +12,120 @@ type CartItem = {
 
 type CartStore = {
   cartItems: CartItem[];
-  addToCart: (item: CartItem) => void;
-  removeFromCart: (id: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
+  loadCart: (userId: string) => Promise<void>;
+  addToCart: (userId: string, item: CartItem) => Promise<void>;
+  updateQuantity: (
+    userId: string,
+    tshirtId: number,
+    newQuantity: number
+  ) => Promise<void>;
+  removeFromCart: (userId: string, tshirtId: number) => Promise<void>;
+  clearCart: () => void;
 };
 
-export const useCartStore = create<CartStore>((set) => ({
+export const useCartStore = create<CartStore>((set, get) => ({
   cartItems: [],
 
-  addToCart: (newItem) =>
-    set((state) => {
-      const existing = state.cartItems.find(
-        (item) =>
-          item.id === newItem.id &&
-          item.size === newItem.size &&
-          item.color === newItem.color
+  createCart: async (userId: string) => {
+  try {
+    const res = await fetch(`http://localhost:4000/createShoppingCart/${userId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_id: userId }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to create shopping cart");
+    }
+
+    console.log("Carrito creado correctamente");
+  } catch (err) {
+    console.error("Error al crear el carrito:", err);
+  }
+},
+
+  
+  loadCart: async (userId: string) => {
+    try {
+      const res = await fetch(
+        `http://localhost:4000/shoppingCart/${userId}`
       );
-      if (existing) {
-        return {
-          cartItems: state.cartItems.map((item) =>
-            item === existing
-              ? { ...item, quantity: item.quantity + newItem.quantity }
-              : item
-          ),
-        };
+      if (!res.ok) {
+        console.error("Failed to fetch cart", await res.text());
+        return;
       }
-      return {
-        cartItems: [...state.cartItems, newItem],
-      };
-    }),
 
-  removeFromCart: (id) =>
-    set((state) => ({
-      cartItems: state.cartItems.filter((item) => item.id !== id),
-    })),
+      const data = await res.json();
+      set({ cartItems: data });
+    } catch (error) {
+      console.error("Error loading cart:", error);
+    }
+  },
 
-  updateQuantity: (id, quantity) =>
-    set((state) => ({
-      cartItems: state.cartItems.map((item) =>
-        item.id === id ? { ...item, quantity } : item
-      ),
-    })),
+  addToCart: async (userId, item) => {
+    try {
+      await fetch(`http://localhost:4000/addtoCart`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          tshirt_id: item.id,
+          quantity: item.quantity,
+        }),
+      });
+
+      await get().loadCart(userId);
+    } catch (err) {
+      console.log(userId, item.id, item.quantity);
+      console.error("Error adding to cart:", err);
+    }
+  },
+
+  removeFromCart: async (userId, tshirtId) => {
+    try {
+      await fetch(`http://localhost:4000/deletetoCart`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          tshirt_id: tshirtId,
+        }),
+      });
+
+      await get().loadCart(userId);
+    } catch (err) {
+      console.error("Error removing from cart:", err);
+    }
+  },
+
+  updateQuantity: async (
+    userId: string,
+    tshirtId: number,
+    newQuantity: number
+  ) => {
+    try {
+      // Aquí deberías hacer el fetch a tu backend, por ejemplo:
+      await fetch("http://localhost:4000/updatetoCart", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          tshirt_id: tshirtId,
+          quantity: newQuantity,
+        }),
+      });
+
+      // Y luego actualizar localmente el estado
+      set((state) => ({
+        cartItems: state.cartItems.map((item) =>
+          item.id === tshirtId ? { ...item, quantity: newQuantity } : item
+        ),
+      }));
+    } catch (error) {
+      console.error("Error updating quantity", error);
+    }
+  },
+  clearCart: () => set({ cartItems: [] }),
 }));

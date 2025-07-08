@@ -1,50 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import CartItem from "@/components/cartItem";
 import { useCartStore } from "@/store/cartStore";
 import { Button } from "@/components/ui/button";
-
-const mockCart = [
-  {
-    id: 1,
-    name: "Camisa1",
-    size: "M",
-    color: "White",
-    quantity: 1,
-    price: 99999,
-    image: "https://via.placeholder.com/100",
-  },
-  {
-    id: 2,
-    name: "Camisa1",
-    size: "M",
-    color: "White",
-    quantity: 1,
-    price: 99999,
-    image: "https://via.placeholder.com/100",
-  },
-    {
-    id: 3,
-    name: "Camisa1",
-    size: "M",
-    color: "White",
-    quantity: 1,
-    price: 99999,
-    image: "https://via.placeholder.com/100",
-  },
-];
+import { useUserStore } from "@/store/userStore";
 
 export default function CartPage() {
   const cartItems = useCartStore((state) => state.cartItems);
   const removeItem = useCartStore((state) => state.removeFromCart);
-  const handleQuantityChange = useCartStore((state) => state.updateQuantity);
-  
+  const rawUpdateQuantity = useCartStore((state) => state.updateQuantity);
+  const loadCart = useCartStore((state) => state.loadCart);
+  const userId = useUserStore((state) => state.userId);
+
+  useEffect(() => {
+    if (userId) {
+      loadCart(userId);
+    } else {
+      console.warn("No se encontró el userId en localStorage");
+    }
+  }, []);
+
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  
+  const handleRemoveItem = (tshirtId: number) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      console.error("No se encontró userId");
+      return;
+    }
+    removeItem(userId, tshirtId);
+  };
+
+  const handleQuantityChange = (tshirtId: number, newQuantity: number) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      console.error("No se encontró userId");
+      return;
+    }
+    rawUpdateQuantity(userId, tshirtId, newQuantity);
+  };
+
   return (
     <div>
       <main className="bg-[#F1F2F3] w-full flex justify-center min-h-screen pt-5 pr-40 pb-5 pl-40 text-black overflow-y-auto">
@@ -58,7 +56,7 @@ export default function CartPage() {
                 <CartItem
                   key={item.id}
                   item={item}
-                  onRemove={removeItem}
+                  onRemove={handleRemoveItem}
                   onQuantityChange={handleQuantityChange}
                 />
               ))}
