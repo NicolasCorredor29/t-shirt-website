@@ -17,7 +17,7 @@ export const Tarjeta = ({ producto }: { producto: any }) => {
           />
           <div>
             <p className="text-[16px]">{producto.title}</p>
-            <p className="text-[12px] text-[#994D52]">{producto.artist_id}</p>
+            <p className="text-[12px] text-[#994D52]">{producto.artist_name}</p>
           </div>
         </div>
       </Link>

@@ -3,9 +3,15 @@ import { useEffect, useState } from "react";
 import { Tarjeta } from "@/components/tarjeta";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
   const [productos, setProductos] = useState([]);
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const name = searchParams.get("username");
+  console.log("mi id es:" + id + "mi nombre es: " + name);
+
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -27,7 +33,7 @@ export default function Home() {
       <main className="bg-[#F1F2F3] w-full flex justify-center min-h-screen pt-5 pr-40 pb-5 pl-40 text-black overflow-y-auto">
         <section className=" flex flex-col w-350 h-190 max-w-350 ">
           <article>
-            <p className="text-4xl">Titulo</p>
+            <p className="text-4xl">Cool clothes</p>
           </article>
           <div className="flex justify-between items-center px-4 py-2">
             <div className="flex space-x-4">
