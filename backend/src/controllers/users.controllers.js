@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 export const login = async (req, res) => {
   const { email, password } = req.body;
   const { rows } = await pool.query(
-    "SELECT username, id FROM users WHERE email = $1 AND password = $2",
+    "SELECT u.username, u.id, u.rol FROM users u WHERE email = $1 AND password = $2",
     [email, password]
   );
   if (rows.length == 0) {

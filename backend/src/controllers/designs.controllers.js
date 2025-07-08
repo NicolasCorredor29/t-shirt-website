@@ -8,7 +8,7 @@ export const getDesigns = async (req, res) => {
 export const getArtDesigns = async (req, res) => {
   const { artist_id } = req.params;
   const { rows } = await pool.query(
-    "SELECT * FROM designs WHERE artist_id = $1",
+    "SELECT d.*, u.username AS artist_name FROM designs d INNER JOIN users u ON d.artist_id = u.id WHERE d.artist_id = $1",
     [artist_id]
   );
   if (rows.length == 0) {
@@ -19,7 +19,7 @@ export const getArtDesigns = async (req, res) => {
 
 export const getDesign = async (req, res) => {
   const { title } = req.params
-  const { rows } = await pool.query("SELECT * FROM designs WHERE title = $1", [title])
+  const { rows } = await pool.query("SELECT d.*, u.username AS artist_name FROM designs d INNER JOIN users u ON d.artist_id = u.id WHERE d.title = $1", [title])
   if (rows.length == 0){
     return res.status(404).json({message: "Designs not found"})
   }
@@ -28,7 +28,7 @@ export const getDesign = async (req, res) => {
 
 export const getOneDesign = async (req, res) => {
   const { id } = req.params
-  const { rows } = await pool.query("SELECT * FROM designs WHERE id = $1 ", [id])
+  const { rows } = await pool.query("SELECT d.*, u.username AS artist_name FROM designs d INNER JOIN users u ON d.artist_id = u.id WHERE d.id = $1", [id])
   if (rows.length == 0){
     return res.status(404).json({message: "Error in the search of the design"})
   }
@@ -38,7 +38,7 @@ export const getOneDesign = async (req, res) => {
 export const getFavDesigns = async (req, res) => {
   const { user_id } = req.params;
   const { rows } = await pool.query(
-    "SELECT d.* FROM designs d JOIN favorites fav ON d.id = fav.design_id JOIN users u ON fav.user_id = u.id WHERE u.id = $1",
+    "SELECT d.*, u.username AS artist_name FROM designs d JOIN favorites fav ON d.id = fav.design_id JOIN users u ON fav.user_id = u.id WHERE u.id = $1",
     [user_id]
   );
   if (rows.length == 0) {
