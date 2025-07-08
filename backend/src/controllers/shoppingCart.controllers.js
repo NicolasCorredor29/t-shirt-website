@@ -45,7 +45,7 @@ export const updatetoCart = async (req, res) => {
   const data = req.body;
   try {
     await pool.query(
-      "UPDATE cart_items SET quantity = $1 FROM shoping_cart sc WHERE cart_items.cart_id = sc.id AND sc.user_id = $2 AND cart_items.t_shirt_id = $3",
+      "UPDATE cart_items SET quantity = $1 FROM shopping_carts sc WHERE cart_items.cart_id = sc.id AND sc.user_id = $2 AND cart_items.t_shirt_id = $3",
       [data.quantity, data.user_id, data.tshirt_id]
     );
     res.json({ message: "Item quantity updated successfully" });
