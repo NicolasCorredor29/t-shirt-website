@@ -52,7 +52,7 @@ export default function LoginForm() {
         throw new Error(data.message || "Error al iniciar sesión");
       }
 
-      router.push(`/${data.username}`);
+      router.push(`/?id=${data.id}&username=${data.username}`);
     } catch (err) {
       setError("Error al iniciar sesión. Verifica tus credenciales.");
       console.log(err);
