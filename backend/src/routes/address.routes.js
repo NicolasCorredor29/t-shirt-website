@@ -1,5 +1,10 @@
 import e, { json, Router } from "express";
-import { createAddress, deleteAddress, getAddress, updateAddress } from "../controllers/address.controllers.js";
+import {
+  createAddress,
+  deleteAddress,
+  getAddress,
+  updateAddress,
+} from "../controllers/address.controllers.js";
 
 const router = Router();
 
