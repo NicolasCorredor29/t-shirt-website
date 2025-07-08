@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { useUserStore } from "@/store/userStore";
-
+import { useSearchParams } from "next/navigation";
+import { mock } from "node:test";
 
 interface ProductPageProps {
   params: { id: string };
@@ -21,17 +22,47 @@ const mockProduct = {
 };
 
 export default function ProductPage({ params }: ProductPageProps) {
- const addToCart = useCartStore((state) => state.addToCart);
+  const searchParams = useSearchParams();
+  const addToCart = useCartStore((state) => state.addToCart);
   const [selectedSize, setSelectedSize] = useState("M");
   const [selectedColor, setSelectedColor] = useState("black");
-  const [selectedSleeve, setSelectedSleeve] = useState("")
+  const [selectedSleeve, setSelectedSleeve] = useState("");
+  const id_design = searchParams.get("id");
   const userId = useUserStore((state) => state.userId);
+  const [, forceUpdate] = useState(0);
 
-    const handleSelect = (value: string) => {
+  const handleSelect = (value: string) => {
     setSelectedSleeve(value);
     console.log("Seleccionado:", value); // Puedes quitar esto luego
   };
 
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const res = await fetch(`http://localhost:4000/oneDesign/${id_design}`);
+        const data = await res.json();
+        const diseño = data[0];
+
+        mockProduct.id = Number(id_design);
+        mockProduct.name = diseño.title;
+        mockProduct.artist = diseño.artist_name;
+        mockProduct.description = diseño.description;
+        mockProduct.image = diseño.image_url;
+
+        console.log(
+          mockProduct.name +
+            mockProduct.artist +
+            mockProduct.description +
+            mockProduct.image
+        );
+        forceUpdate((n) => n + 1);
+      } catch (error) {
+        console.error("Error al obtener productos:", error);
+      }
+    };
+
+    fetchProductos();
+  }, []);
 
   const handleAddToCart = () => {
     const item = {
@@ -42,7 +73,6 @@ export default function ProductPage({ params }: ProductPageProps) {
       quantity: 1,
       price: mockProduct.price,
       image: mockProduct.image,
-      
     };
     console.log("Producto a agregar:", item);
     if (userId) {
@@ -50,7 +80,6 @@ export default function ProductPage({ params }: ProductPageProps) {
     } else {
       console.warn("No se encontró el userId en localStorage");
     }
-    
   };
 
   return (
@@ -108,37 +137,36 @@ export default function ProductPage({ params }: ProductPageProps) {
                 ))}
               </div>
             </div>
-                      <div>
-            <p className="text-sm font-medium text-gray-700 mb-1">Tipo</p>
-            <div className="flex gap-4">
-              <button className="flex flex-col items-center gap-1 text-sm hover:text-blue-600">
-                <img
-                  src="/img/mangacorta.png"
-                  className="w-8 h-8"
-                  alt="Sleveless"
-                />
-                Sleveless
-              </button>
-              <button className="flex flex-col items-center gap-1 text-sm hover:text-blue-600">
-                <img
-                  src="/img/mangalarga.png"
-                  className="w-8 h-8"
-                  alt="Long sleeves"
-                />
-                Long sleeves
-              </button>
-              <button className="flex flex-col items-center gap-1 text-sm hover:text-blue-600">
-                <img
-                  src="/img/normal.png"
-                  className="w-8 h-8"
-                  alt="T-shirt"
-                />
-                T-shirt
-              </button>
+            <div>
+              <p className="text-sm font-medium text-gray-700 mb-1">Tipo</p>
+              <div className="flex gap-4">
+                <button className="flex flex-col items-center gap-1 text-sm hover:text-blue-600">
+                  <img
+                    src="/img/mangacorta.png"
+                    className="w-8 h-8"
+                    alt="Sleveless"
+                  />
+                  Sleveless
+                </button>
+                <button className="flex flex-col items-center gap-1 text-sm hover:text-blue-600">
+                  <img
+                    src="/img/mangalarga.png"
+                    className="w-8 h-8"
+                    alt="Long sleeves"
+                  />
+                  Long sleeves
+                </button>
+                <button className="flex flex-col items-center gap-1 text-sm hover:text-blue-600">
+                  <img
+                    src="/img/normal.png"
+                    className="w-8 h-8"
+                    alt="T-shirt"
+                  />
+                  T-shirt
+                </button>
+              </div>
             </div>
           </div>
-          </div>
-
 
           <button
             onClick={handleAddToCart}
