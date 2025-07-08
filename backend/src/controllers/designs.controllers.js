@@ -6,10 +6,10 @@ export const getDesigns = async (req, res) => {
 };
 
 export const getArtDesigns = async (req, res) => {
-  const { artist_id } = req.params;
+  const { artist_name } = req.params;
   const { rows } = await pool.query(
-    "SELECT d.*, u.username AS artist_name FROM designs d INNER JOIN users u ON d.artist_id = u.id WHERE d.artist_id = $1",
-    [artist_id]
+    "SELECT d.*, u.username AS artist_name FROM designs d INNER JOIN users u ON d.artist_id = u.id WHERE u.username = $1",
+    [artist_name]
   );
   if (rows.length == 0) {
     return res.status(404).json({ message: "Designs not found" });
