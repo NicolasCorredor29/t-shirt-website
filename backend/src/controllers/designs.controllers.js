@@ -1,7 +1,7 @@
 import { pool } from "../db.js";
 
 export const getDesigns = async (req, res) => {
-  const { rows } = await pool.query("SELECT * FROM designs");
+  const { rows } = await pool.query("SELECT d.*, u.username AS artist_name FROM designs d INNER JOIN users u ON d.artist_id = u.id");
   res.json(rows);
 };
 

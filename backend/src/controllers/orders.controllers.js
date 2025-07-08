@@ -13,8 +13,8 @@ export const createOrder = async (req, res) => {
   const data = req.body;
   try {
     await pool.query(
-      "INSERT INTO orders (user_id, tshirt_id, quantity, total_price) VALUES ($1, $2, $3, $4)",
-      [data.user_id, data.tshirt_id, data.quantity, data.total_price]
+      "INSERT INTO orders (user_id, shipping_address_id, status) VALUES ($1, $2, $3)",
+      [data.user_id, data.address, data.status]
     );
   } catch (err) {
     return res.status(500).json({ message: "Internal error" });
@@ -22,17 +22,16 @@ export const createOrder = async (req, res) => {
   res.json({ message: "Order created successfully" });
 }
 
-export const updateOrder = async (req, res) => {
+export const addtoOrder = async (req, res) => {
   const data = req.body;
   try {
     await pool.query(
-      "UPDATE orders SET quantity = $1, total_price = $2 WHERE id = $3",
-      [data.quantity, data.total_price, data.order_id]
+      "INSERT INTO order_items (order_id, t_shirt_id, quantity, price) VALUES ($1, $2, $3, $4)",
+      [data.order_id, data.tshirt_id, data.quantity, data.total_price]
     );
   } catch (err) {
-    return res.status(404).json({ message: "Order not found" });
+    return res.status(500).json({ message: "Internal error" });
   }
-  res.json({ message: "Order updated successfully" });
 }
 
 export const deleteOrder = async (req, res) => {
