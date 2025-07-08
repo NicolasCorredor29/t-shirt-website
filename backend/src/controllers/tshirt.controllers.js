@@ -4,7 +4,7 @@ export const createTshirt = async (req, res) => {
   const data = req.body;
   try {
     await pool.query(
-      "INSERT INTO t_shirts (design_id, size, color, material, type, price, stock) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+      "INSERT INTO t_shirts (design_id, size, color, material, type, price) VALUES ($1, $2, $3, $4, $5, $6)",
       [
         data.design_id,
         data.size,
@@ -12,7 +12,6 @@ export const createTshirt = async (req, res) => {
         data.material,
         data.type,  
         data.price,
-        data.stock
       ]
     );
   } catch (err) {
@@ -25,8 +24,8 @@ export const updateTshirt = async (req, res) => {
   const data = req.body;
   try {
     await pool.query(
-      "UPDATE t_shirts set design_id = $1 AND size_id = $2, AND color_id = $3 WHERE id = $4",
-      [data.design_id, data.size, data.color, data.tshirt_id]
+      "UPDATE t_shirts set design = $1 AND size = $2 AND color = $3 AND type=$4 WHERE id = $5",
+      [data.design_id, data.size, data.color, data.type, data.tshirt_id]
     );
   } catch (err) {
     return res.status(404).json({ message: "Tshirt not found" });
