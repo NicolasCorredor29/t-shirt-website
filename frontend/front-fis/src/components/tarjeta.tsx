@@ -8,9 +8,7 @@ export const Tarjeta = ({ producto }: { producto: any }) => {
         <div className="flex flex-col bg-[#C6D3DB] w-44 h-76 pb-3 gap-3 rounded-2xl overflow-hidden transform transition duration-300 hover:scale-105 cursor-pointer">
           <Image
             className="bg-white w-44 h-58.5"
-            src={
-              "https://i.pinimg.com/736x/a9/90/0d/a9900d628ed91e79bb3c620ee25dd397.jpg"
-            }
+            src={producto.image_url}
             alt={producto.title}
             width={176}
             height={234}
