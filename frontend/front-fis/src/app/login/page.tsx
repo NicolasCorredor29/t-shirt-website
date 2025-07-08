@@ -5,14 +5,20 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react";
 import Link from "next/link";
+import { useUserStore } from "@/store/userStore"; // importa tu store
 
 export default function LoginForm() {
+
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const userId = useUserStore((state) => state.userId);
+  const setUserId = useUserStore((state) => state.setUserId);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,7 +58,13 @@ export default function LoginForm() {
         throw new Error(data.message || "Error al iniciar sesión");
       }
 
+      setUserId(data.id);
+
+      console.log(userId);
+
+
       router.push(`/?id=${data.id}&username=${data.username}&rol=${data.rol}`);
+
     } catch (err) {
       setError("Error al iniciar sesión. Verifica tus credenciales.");
       console.log(err);
