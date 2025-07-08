@@ -20,7 +20,7 @@ export const createUser = async (req, res) => {
       "INSERT INTO users (username, password, email, rol) VALUES ($1, $2, $3, $4) RETURNING *",
       [data.username, data.password, data.email, data.role]
     );
-    return res.status(200).json(rows[0].id);
+    return res.status(200).json(rows[0]);
   } catch (error) {
     if (error?.code === "23505") {
       return res.status(409).json({ message: "Email already exists" });
