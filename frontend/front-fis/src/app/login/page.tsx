@@ -2,6 +2,7 @@
 
 import type React from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
@@ -11,6 +12,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,12 +46,13 @@ export default function LoginForm() {
       console.log("response status", response.status);
 
       const data = await response.json();
-      console.log(data);
+      console.log(data.username);
       if (!response.ok) {
         // Manejo de errores del servidor
         throw new Error(data.message || "Error al iniciar sesión");
       }
-      alert("¡Login exitoso!");
+
+      router.push(`/${data.username}`);
     } catch (err) {
       setError("Error al iniciar sesión. Verifica tus credenciales.");
       console.log(err);
