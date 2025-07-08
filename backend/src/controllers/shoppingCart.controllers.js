@@ -3,9 +3,10 @@ import { pool } from "../db.js";
 export const createShoppingCart = async (req, res) => {
   const { user_id } = req.params;
   try {
-    await pool.query("INSERT INTO shopping_cart (user_id) VALUES ($1)", [
+    await pool.query("INSERT INTO shopping_carts (user_id) VALUES ($1)", [
       user_id,
     ]);
+    res.json({ message: "Shopping cart created successfully" });
   } catch (err) {
     return res.status(500).json({ message: "Internal error" });
   }
