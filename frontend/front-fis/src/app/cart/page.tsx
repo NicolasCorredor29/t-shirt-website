@@ -14,6 +14,7 @@ export default function CartPage() {
   const userId = useUserStore((state) => state.userId);
 
   useEffect(() => {
+    console.log("iduser"+userId);
     if (userId) {
       loadCart(userId);
     } else {

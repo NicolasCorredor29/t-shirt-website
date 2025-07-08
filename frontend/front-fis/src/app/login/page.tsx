@@ -9,13 +9,16 @@ import { useUserStore } from "@/store/userStore"; // importa tu store
 
 export default function LoginForm() {
 
-  const setUserId = useUserStore((state) => state.setUserId);
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const userId = useUserStore((state) => state.userId);
+  const setUserId = useUserStore((state) => state.setUserId);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,7 +60,7 @@ export default function LoginForm() {
 
       setUserId(data.id);
 
-      console.log(data.id)
+      console.log(userId);
 
 
       router.push(`/?id=${data.id}&username=${data.username}&rol=${data.rol}`);

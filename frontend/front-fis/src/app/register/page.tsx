@@ -41,16 +41,16 @@ export default function RegisterPage() {
     });
 
     const data = await res.json();
-    console.log(data);
+    console.log("Hola"+data +typeof data);
 
     if (res.ok) {
       toast.success("Registration successful. You can now log in.");
 
+      setUserId(data);
+
       console.log("Mkid"+userId)
 
-      setUserId(data.id);
-
-      await fetch(`http://localhost:4000/createShoppingCart/${userId}`, {
+      await fetch(`http://localhost:4000/createShoppingCart/${data}`, {
         method: "GET",
       });
 
