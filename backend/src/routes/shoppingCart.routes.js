@@ -5,10 +5,9 @@ import {
   deletetoCart,
   getShoppingCart,
   updatetoCart,
-} from "../controllers/shoppingCart.controllers";
-import router from "./users.routes";
+} from "../controllers/shoppingCart.controllers.js";
 
-router = Router();
+const router = Router();
 
 router.post("/createShoppingCart/:user_id", createShoppingCart);
 
