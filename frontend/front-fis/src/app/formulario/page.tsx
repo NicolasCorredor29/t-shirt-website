@@ -6,15 +6,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function FormularioPage() {
   const router = useRouter();
-
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  console.log("id en mi otra interfaz: " + id);
   const [formData, setFormData] = useState({
-    id: "",
-    name: "",
-    artist: "",
-    image: "",
+    category_id: "",
+    title: "",
+    description: "",
+    image_url: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,14 +25,33 @@ export default function FormularioPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Aquí puedes guardar en una API o localStorage (opcional)
-    console.log("Producto guardado:", formData);
+    const payload = {
+      artist_id: id,
+      ...formData,
+      // Envia el id recibido por query
+    };
+    console.log(payload);
+    try {
+      const res = await fetch("http://localhost:4000/designs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    // Redirige de vuelta a la página principal
-    router.push("/");
+      if (!res.ok) throw new Error("Error al guardar en la base de datos");
+
+      console.log("Producto guardado con éxito");
+
+      // Redirige después del guardado
+      router.push("/");
+    } catch (err) {
+      console.error("Error al enviar el producto:", err);
+    }
   };
 
   return (
@@ -40,31 +62,31 @@ export default function FormularioPage() {
       >
         <h2 className="text-xl font-bold mb-2 text-black">Agregar Producto</h2>
 
+        <Label>Category</Label>
+        <Input
+          name="category_id"
+          value={formData.category_id}
+          onChange={handleChange}
+          placeholder="Enter a number"
+        />
         <Label>Title</Label>
         <Input
-          name="id"
-          value={formData.id}
+          name="title"
+          value={formData.title}
           onChange={handleChange}
           placeholder="Dragon rojo"
         />
         <Label>Description</Label>
         <Input
           name="description"
-          value={formData.name}
+          value={formData.description}
           onChange={handleChange}
           placeholder="Un dragon rojo en una montaña"
         />
-        <Label>Category</Label>
-        <Input
-          name="category"
-          value={formData.artist}
-          onChange={handleChange}
-          placeholder="All"
-        />
         <Label>Image</Label>
         <Input
-          name="image"
-          value={formData.image}
+          name="image_url"
+          value={formData.image_url}
           onChange={handleChange}
           placeholder="URL de imagen"
         />

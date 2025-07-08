@@ -62,6 +62,7 @@ export const createDesign = async (req, res) => {
         data.image_url
       ]
     );
+    res.json({ message: "Design created successfully" });
   } catch (err) {
     if (err?.code === "23505") {
       return res.status(409).json({ message: "Design already exists" });

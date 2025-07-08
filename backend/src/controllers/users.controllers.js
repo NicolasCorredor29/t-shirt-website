@@ -16,11 +16,11 @@ export const login = async (req, res) => {
 export const createUser = async (req, res) => {
   try {
     const data = req.body;
-    await pool.query(
+    const { rows } = await pool.query(
       "INSERT INTO users (username, password, email, rol) VALUES ($1, $2, $3, $4) RETURNING *",
       [data.username, data.password, data.email, data.role]
     );
-    return res.status(200).json({ message: "User created succesfully" });
+    return res.status(200).json(rows[0].id);
   } catch (error) {
     if (error?.code === "23505") {
       return res.status(409).json({ message: "Email already exists" });

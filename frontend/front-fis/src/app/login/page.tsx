@@ -8,7 +8,6 @@ import Link from "next/link";
 import { useUserStore } from "@/store/userStore"; // importa tu store
 
 export default function LoginForm() {
-  
 
   const setUserId = useUserStore((state) => state.setUserId);
   const [email, setEmail] = useState("");
@@ -60,7 +59,9 @@ export default function LoginForm() {
 
       console.log(data.id)
 
-      router.push(`/?id=${data.id}&username=${data.username}`);
+
+      router.push(`/?id=${data.id}&username=${data.username}&rol=${data.rol}`);
+
     } catch (err) {
       setError("Error al iniciar sesión. Verifica tus credenciales.");
       console.log(err);
