@@ -9,24 +9,35 @@ type CartItem = {
   price: number;
   image: string;
 };
+/*type CartItem = {
+  id: number;
+  cart_id: number;
+  desing_id: number;
+  item_id: string;
+  size: string;
+  color: string;
+  quantity: number;
+  price: number;
+  image: string;
+};*/
 
 type CartStore = {
   cartItems: CartItem[];
-  loadCart: (userId: string) => Promise<void>;
-  addToCart: (userId: string, item: CartItem) => Promise<void>;
+  loadCart: (userId: number) => Promise<void>;
+  addToCart: (userId: number, item: CartItem) => Promise<void>;
   updateQuantity: (
-    userId: string,
+    userId: number,
     tshirtId: number,
     newQuantity: number
   ) => Promise<void>;
-  removeFromCart: (userId: string, tshirtId: number) => Promise<void>;
+  removeFromCart: (userId: number, tshirtId: number) => Promise<void>;
   clearCart: () => void;
 };
 
 export const useCartStore = create<CartStore>((set, get) => ({
   cartItems: [],
 
-  createCart: async (userId: string) => {
+  createCart: async (userId: number) => {
   try {
     const res = await fetch(`http://localhost:4000/createShoppingCart/${userId}`, {
       method: "POST",
@@ -45,11 +56,15 @@ export const useCartStore = create<CartStore>((set, get) => ({
 },
 
   
-  loadCart: async (userId: string) => {
+  loadCart: async (userId: number) => {
     try {
       const res = await fetch(
         `http://localhost:4000/shoppingCart/${userId}`
       );
+      if (res.status==404){
+        set({ cartItems: [] });
+        return;
+      }
       if (!res.ok) {
         console.error("Failed to fetch cart", await res.text());
         return;
@@ -57,6 +72,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
 
       const data = await res.json();
       set({ cartItems: data });
+      console.log(data);
     } catch (error) {
       console.error("Error loading cart:", error);
     }
@@ -73,6 +89,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
           quantity: item.quantity,
         }),
       });
+      console.log("Se agregó con exito")
 
       await get().loadCart(userId);
     } catch (err) {
@@ -99,12 +116,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
   },
 
   updateQuantity: async (
-    userId: string,
+    userId: number,
     tshirtId: number,
     newQuantity: number
   ) => {
     try {
-      // Aquí deberías hacer el fetch a tu backend, por ejemplo:
+      
       await fetch("http://localhost:4000/updatetoCart", {
         method: "PUT",
         headers: {

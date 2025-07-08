@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { useUserStore } from "@/store/userStore";
 
@@ -10,7 +10,7 @@ interface ProductPageProps {
 }
 
 const mockProduct = {
-  id: 2,
+  id: 3,
   name: "Camiseta  Dragón Azul",
   description: "Diseño exclusivo de dragón oriental con tinta azul.",
   artist: "Lina Moreno",
@@ -27,9 +27,16 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [selectedSleeve, setSelectedSleeve] = useState("")
   const userId = useUserStore((state) => state.userId);
 
+  const loadUserId = useUserStore((state) => state.loadUserId);
+  
+      useEffect(() => {
+        loadUserId();
+      }, []);
+  
+
     const handleSelect = (value: string) => {
     setSelectedSleeve(value);
-    console.log("Seleccionado:", value); // Puedes quitar esto luego
+    console.log("Seleccionado:", value);
   };
 
 
@@ -45,6 +52,7 @@ export default function ProductPage({ params }: ProductPageProps) {
       
     };
     console.log("Producto a agregar:", item);
+    console.log(userId)
     if (userId) {
       addToCart(userId, item);
     } else {
