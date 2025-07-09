@@ -48,7 +48,7 @@ export default function Home() {
 
             <Link
               href={`/formulario?id=${id}`}
-              className={rol == "user" ? "invisible" : "visible"}
+              className={rol != "artist" ? "invisible" : "visible"}
             >
               <Button>Add Desing</Button>
             </Link>
