@@ -34,11 +34,10 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [selectedMaterial, setSelectedMaterial] = useState("algodon");
 
   const loadUserId = useUserStore((state) => state.loadUserId);
-  
-      useEffect(() => {
-        loadUserId();
-      }, []);
 
+  useEffect(() => {
+    loadUserId();
+  }, []);
 
   const [product, setProduct] = useState({
     id: 0,
@@ -111,8 +110,8 @@ export default function ProductPage({ params }: ProductPageProps) {
     };
 
     console.log("Producto a agregar:", item);
-    console.log(userId)
-    let data = null; 
+    console.log(userId);
+    let data = null;
 
     try {
       const res = await fetch("http://localhost:4000/createTshirt", {
@@ -128,7 +127,7 @@ export default function ProductPage({ params }: ProductPageProps) {
         throw new Error(errorData.message || "Error al enviar el pedido");
       }
 
-      console.log("Pedido enviado correctamente"+ data);
+      console.log("Pedido enviado correctamente" + data);
     } catch (error) {
       console.error("Error al enviar el pedido:", error);
     }
